@@ -45,13 +45,13 @@ export default function Home() {
       {
         label: 'Your Skills',
         data: Object.values(skillLevels),
-        backgroundColor: 'rgba(129, 140, 248, 0.2)',
-        borderColor: 'rgba(129, 140, 248, 1)',
+        backgroundColor: 'rgba(147, 51, 234, 0.2)',
+        borderColor: 'rgba(147, 51, 234, 0.8)',
         borderWidth: 2,
-        pointBackgroundColor: 'rgba(129, 140, 248, 1)',
+        pointBackgroundColor: 'rgba(147, 51, 234, 1)',
         pointBorderColor: '#fff',
         pointHoverBackgroundColor: '#fff',
-        pointHoverBorderColor: 'rgba(129, 140, 248, 1)',
+        pointHoverBorderColor: 'rgba(147, 51, 234, 1)',
       },
     ],
   };
@@ -234,87 +234,141 @@ Format your response as JSON only, like this:
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-violet-50 via-fuchsia-50 to-purple-50">
       <Head>
         <title>ArgMind - AI Writing Analysis</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className="container mx-auto px-4 py-8 max-w-7xl">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-indigo-900 mb-2">
+        <div className="text-center mb-12 bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-8 rounded-2xl shadow-lg">
+          <h1 className="text-5xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-200">
             ArgMind
           </h1>
-          <p className="text-gray-600 text-lg">
+          <p className="text-lg text-purple-100">
             Advanced AI-Powered Writing Analysis
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          <div className="bg-white rounded-xl shadow-lg p-6 order-2 lg:order-1">
-            <h2 className="text-2xl font-semibold text-indigo-900 mb-4">Your Essay</h2>
+          <div className="bg-white rounded-2xl shadow-lg p-8 order-2 lg:order-1 transform hover:scale-[1.02] transition-transform duration-300 border border-purple-100">
+            <div className="flex items-center mb-6">
+              <div className="w-2 h-8 bg-gradient-to-b from-purple-500 to-indigo-500 rounded-full mr-4"></div>
+              <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600">Your Essay</h2>
+            </div>
             <textarea
-              className="w-full h-[400px] p-4 border-2 border-indigo-100 rounded-lg focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-colors duration-200 ease-in-out resize-none font-sans text-gray-700"
+              className="w-full h-[400px] p-6 border-2 border-purple-100 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-300 ease-in-out resize-none font-sans text-gray-700 shadow-inner"
               placeholder="Paste your argumentative essay here..."
               value={essayText}
               onChange={(e) => setEssayText(e.target.value)}
             />
             <button
-              className="mt-4 bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors duration-200 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 w-full lg:w-auto"
+              className="mt-6 w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50"
               onClick={analyzeEssay}
             >
-              Analyze Essay
+              <div className="flex items-center justify-center">
+                <span className="mr-2">✨</span>
+                Analyze Essay
+                <span className="ml-2">📝</span>
+              </div>
             </button>
           </div>
 
-          <div className="bg-white rounded-xl shadow-lg p-6 order-1 lg:order-2">
-            <h2 className="text-2xl font-semibold text-indigo-900 mb-4">Skill Analysis</h2>
-            <div className="h-[350px] w-full">
+          <div className="bg-white rounded-2xl shadow-lg p-8 order-1 lg:order-2 transform hover:scale-[1.02] transition-transform duration-300 border border-purple-100">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center">
+                <div className="w-2 h-8 bg-gradient-to-b from-purple-500 to-indigo-500 rounded-full mr-4"></div>
+                <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600">Skill Analysis</h2>
+              </div>
+              <div className="flex space-x-2">
+                {Object.entries(skillLevels).map(([skill, level]) => (
+                  level > 0 && (
+                    <div key={skill} className="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded-full">
+                      {Math.round(level)}%
+                    </div>
+                  )
+                ))}
+              </div>
+            </div>
+            <div className="relative h-[350px] w-full bg-gradient-to-br from-purple-50 to-indigo-50 rounded-xl p-4">
               <Radar data={radarData} options={radarOptions} />
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-lg p-6">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-semibold text-indigo-900">Personalized Exercises</h2>
+        <div className="bg-white rounded-2xl shadow-lg p-8 border border-purple-100">
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center">
+              <div className="w-2 h-8 bg-gradient-to-b from-purple-500 to-indigo-500 rounded-full mr-4"></div>
+              <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600">
+                Personalized Exercises
+              </h2>
+            </div>
             <button
-              className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors duration-200 ease-in-out"
+              className="bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50"
               onClick={() => setShowExercises(!showExercises)}
             >
-              {showExercises ? 'Hide Exercises' : 'Show Exercises'}
+              <div className="flex items-center">
+                {showExercises ? '✖ Hide Exercises' : '✨ Show Exercises'}
+              </div>
             </button>
           </div>
 
           {showExercises && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {exercises.map((exercise, index) => (
-                <div key={index} className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow duration-200">
-                  <h3 className="text-xl font-semibold text-indigo-900 mb-3">{exercise.type}</h3>
-                  <p className="text-gray-700 mb-4">{exercise.instruction}</p>
-                  {exercise.topic && <p className="text-gray-600 italic mb-3">Topic: {exercise.topic}</p>}
-                  {exercise.evidence && <p className="text-gray-600 italic mb-3">Evidence: {exercise.evidence}</p>}
+                <div key={index} className="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-xl p-8 shadow-md hover:shadow-xl transition-all duration-300 border border-purple-100">
+                  <div className="flex items-center mb-4">
+                    <div className="w-1 h-6 bg-gradient-to-b from-purple-500 to-indigo-500 rounded-full mr-3"></div>
+                    <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600">
+                      {exercise.type}
+                    </h3>
+                  </div>
+                  <p className="text-gray-700 mb-4 font-medium">{exercise.instruction}</p>
+                  {exercise.topic && (
+                    <div className="bg-white/50 rounded-lg p-4 mb-4 border border-purple-100">
+                      <p className="text-purple-800 font-medium">Topic: {exercise.topic}</p>
+                    </div>
+                  )}
+                  {exercise.evidence && (
+                    <div className="bg-white/50 rounded-lg p-4 mb-4 border border-purple-100">
+                      <p className="text-purple-800 font-medium">Evidence: {exercise.evidence}</p>
+                    </div>
+                  )}
                   {exercise.arguments && (
-                    <ul className="list-disc list-inside mb-4 text-gray-700">
+                    <ul className="list-none space-y-2 mb-4">
                       {exercise.arguments.map((arg, i) => (
-                        <li key={i} className="mb-1">{arg}</li>
+                        <li key={i} className="flex items-center text-gray-700">
+                          <span className="text-purple-500 mr-2">•</span>
+                          {arg}
+                        </li>
                       ))}
                     </ul>
                   )}
                   {exercise.points && (
-                    <ul className="list-disc list-inside mb-4 text-gray-700">
+                    <ul className="list-none space-y-2 mb-4">
                       {exercise.points.map((point, i) => (
-                        <li key={i} className="mb-1">{point}</li>
+                        <li key={i} className="flex items-center text-gray-700">
+                          <span className="text-purple-500 mr-2">•</span>
+                          {point}
+                        </li>
                       ))}
                     </ul>
                   )}
-                  {exercise.sentence && <p className="text-gray-600 italic mb-3">Sentence: {exercise.sentence}</p>}
+                  {exercise.sentence && (
+                    <div className="bg-white/50 rounded-lg p-4 mb-4 border border-purple-100">
+                      <p className="text-purple-800 font-medium">Sentence: {exercise.sentence}</p>
+                    </div>
+                  )}
                   <textarea
-                    className="w-full h-32 p-4 border-2 border-indigo-100 rounded-lg focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-colors duration-200 ease-in-out mb-4 resize-none"
+                    className="w-full h-32 p-4 border-2 border-purple-100 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-300 ease-in-out mb-4 resize-none bg-white/75"
                     placeholder="Write your response here..."
                   />
-                  <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors duration-200 ease-in-out w-full">
-                    Submit Response
+                  <button className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50">
+                    <div className="flex items-center justify-center">
+                      <span className="mr-2">📝</span>
+                      Submit Response
+                    </div>
                   </button>
                 </div>
               ))}
