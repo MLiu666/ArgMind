@@ -1,0 +1,14 @@
+version: '3'
+services:
+  argmind:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+    environment:
+      - NODE_ENV=development
+      - GITHUB_PERSONAL_ACCESS_TOKEN=${GITHUB_TOKEN}
+    command: http-server -p 8080
+    env_file:
+      - .env 
