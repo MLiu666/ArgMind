@@ -9,10 +9,22 @@ const nextConfig = {
   webpack: (config) => {
     // Enable WebAssembly
     config.experiments = {
-      ...config.experiments,
       asyncWebAssembly: true,
       layers: true,
     };
+
+    // Add WASM MIME type
+    config.module.rules.push({
+      test: /\.wasm$/,
+      type: 'webassembly/async',
+    });
+
+    // Cache model files
+    config.module.rules.push({
+      test: /\.safetensors$/,
+      type: 'asset/resource',
+    });
+
     return config;
   },
   // Increase build memory limit

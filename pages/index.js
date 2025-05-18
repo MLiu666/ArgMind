@@ -3,8 +3,10 @@ import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import { pipeline, env } from '@xenova/transformers';
 
-// Disable local model loading warning
-env.allowLocalModels = false;
+// Configure transformers.js
+env.allowLocalModels = true;
+env.useBrowserCache = true;
+env.backends.onnx.wasm.numThreads = 1;
 
 export default function Home() {
   const [text, setText] = useState('');
@@ -17,7 +19,10 @@ export default function Home() {
   useEffect(() => {
     async function loadModel() {
       try {
-        const generator = await pipeline('text-generation', 'mosaicml/mpt-7b-instruct');
+        // Use a smaller model that's more suitable for browser-based inference
+        const generator = await pipeline('text-generation', 'Xenova/LaMini-GPT-1.5B', {
+          quantized: true,
+        });
         setModel(generator);
         setModelLoading(false);
       } catch (err) {
