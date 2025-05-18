@@ -238,142 +238,169 @@ Format your response as JSON only, like this:
       <Head>
         <title>ArgMind - AI Writing Analysis</title>
         <link rel="icon" href="/favicon.ico" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
       </Head>
 
-      <main className="container mx-auto px-4 py-8 max-w-7xl">
-        <div className="text-center mb-12 bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-8 rounded-2xl shadow-lg">
-          <h1 className="text-5xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-200">
-            ArgMind
-          </h1>
-          <p className="text-lg text-purple-100">
-            Advanced AI-Powered Writing Analysis
-          </p>
+      <main className="container mx-auto px-4 py-8 max-w-6xl">
+        <div className="text-center mb-12">
+          <div className="bg-gradient-to-r from-purple-600 to-indigo-600 p-8 rounded-2xl shadow-lg transform hover:scale-[1.02] transition-all duration-300">
+            <h1 className="text-5xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-200 font-display">
+              ArgMind
+            </h1>
+            <p className="text-lg text-purple-100 font-medium">
+              Advanced AI-Powered Writing Analysis
+            </p>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          <div className="bg-white rounded-2xl shadow-lg p-8 order-2 lg:order-1 transform hover:scale-[1.02] transition-transform duration-300 border border-purple-100">
-            <div className="flex items-center mb-6">
-              <div className="w-2 h-8 bg-gradient-to-b from-purple-500 to-indigo-500 rounded-full mr-4"></div>
-              <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600">Your Essay</h2>
-            </div>
-            <textarea
-              className="w-full h-[400px] p-6 border-2 border-purple-100 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-300 ease-in-out resize-none font-sans text-gray-700 shadow-inner"
-              placeholder="Paste your argumentative essay here..."
-              value={essayText}
-              onChange={(e) => setEssayText(e.target.value)}
-            />
-            <button
-              className="mt-6 w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50"
-              onClick={analyzeEssay}
-            >
-              <div className="flex items-center justify-center">
-                <span className="mr-2">✨</span>
-                Analyze Essay
-                <span className="ml-2">📝</span>
-              </div>
-            </button>
+        <div className="space-y-8">
+          {/* Section Headers Style */}
+          <div className="relative mb-6">
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-200 to-indigo-200 rounded-lg transform -skew-y-2"></div>
+            <h2 className="relative text-2xl font-bold text-center py-3 text-purple-900">Writing Analysis Dashboard</h2>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-lg p-8 order-1 lg:order-2 transform hover:scale-[1.02] transition-transform duration-300 border border-purple-100">
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            <div className="bg-white rounded-2xl shadow-lg p-8 transform hover:scale-[1.01] transition-all duration-300 border border-purple-100">
+              <div className="flex items-center justify-center mb-6">
                 <div className="w-2 h-8 bg-gradient-to-b from-purple-500 to-indigo-500 rounded-full mr-4"></div>
-                <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600">Skill Analysis</h2>
+                <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600">Your Essay</h2>
               </div>
-              <div className="flex space-x-2">
-                {Object.entries(skillLevels).map(([skill, level]) => (
-                  level > 0 && (
-                    <div key={skill} className="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded-full">
-                      {Math.round(level)}%
-                    </div>
-                  )
-                ))}
-              </div>
-            </div>
-            <div className="relative h-[350px] w-full bg-gradient-to-br from-purple-50 to-indigo-50 rounded-xl p-4">
-              <Radar data={radarData} options={radarOptions} />
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-2xl shadow-lg p-8 border border-purple-100">
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center">
-              <div className="w-2 h-8 bg-gradient-to-b from-purple-500 to-indigo-500 rounded-full mr-4"></div>
-              <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600">
-                Personalized Exercises
-              </h2>
-            </div>
-            <button
-              className="bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50"
-              onClick={() => setShowExercises(!showExercises)}
-            >
-              <div className="flex items-center">
-                {showExercises ? '✖ Hide Exercises' : '✨ Show Exercises'}
-              </div>
-            </button>
-          </div>
-
-          {showExercises && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {exercises.map((exercise, index) => (
-                <div key={index} className="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-xl p-8 shadow-md hover:shadow-xl transition-all duration-300 border border-purple-100">
-                  <div className="flex items-center mb-4">
-                    <div className="w-1 h-6 bg-gradient-to-b from-purple-500 to-indigo-500 rounded-full mr-3"></div>
-                    <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600">
-                      {exercise.type}
-                    </h3>
-                  </div>
-                  <p className="text-gray-700 mb-4 font-medium">{exercise.instruction}</p>
-                  {exercise.topic && (
-                    <div className="bg-white/50 rounded-lg p-4 mb-4 border border-purple-100">
-                      <p className="text-purple-800 font-medium">Topic: {exercise.topic}</p>
-                    </div>
-                  )}
-                  {exercise.evidence && (
-                    <div className="bg-white/50 rounded-lg p-4 mb-4 border border-purple-100">
-                      <p className="text-purple-800 font-medium">Evidence: {exercise.evidence}</p>
-                    </div>
-                  )}
-                  {exercise.arguments && (
-                    <ul className="list-none space-y-2 mb-4">
-                      {exercise.arguments.map((arg, i) => (
-                        <li key={i} className="flex items-center text-gray-700">
-                          <span className="text-purple-500 mr-2">•</span>
-                          {arg}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                  {exercise.points && (
-                    <ul className="list-none space-y-2 mb-4">
-                      {exercise.points.map((point, i) => (
-                        <li key={i} className="flex items-center text-gray-700">
-                          <span className="text-purple-500 mr-2">•</span>
-                          {point}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                  {exercise.sentence && (
-                    <div className="bg-white/50 rounded-lg p-4 mb-4 border border-purple-100">
-                      <p className="text-purple-800 font-medium">Sentence: {exercise.sentence}</p>
-                    </div>
-                  )}
-                  <textarea
-                    className="w-full h-32 p-4 border-2 border-purple-100 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-300 ease-in-out mb-4 resize-none bg-white/75"
-                    placeholder="Write your response here..."
-                  />
-                  <button className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50">
-                    <div className="flex items-center justify-center">
-                      <span className="mr-2">📝</span>
-                      Submit Response
-                    </div>
-                  </button>
+              <div className="relative">
+                <textarea
+                  className="w-full h-[400px] p-6 border-2 border-purple-100 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-300 ease-in-out resize-none font-sans text-gray-700 shadow-inner"
+                  placeholder="Paste your argumentative essay here..."
+                  value={essayText}
+                  onChange={(e) => setEssayText(e.target.value)}
+                />
+                <div className="absolute bottom-4 right-4 text-sm text-gray-500">
+                  {essayText.length} characters
                 </div>
-              ))}
+              </div>
+              <button
+                className="mt-6 w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 group"
+                onClick={analyzeEssay}
+              >
+                <div className="flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
+                  <span className="mr-2">✨</span>
+                  Analyze Essay
+                  <span className="ml-2">📝</span>
+                </div>
+              </button>
             </div>
-          )}
+
+            <div className="bg-white rounded-2xl shadow-lg p-8 transform hover:scale-[1.01] transition-all duration-300 border border-purple-100">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center">
+                  <div className="w-2 h-8 bg-gradient-to-b from-purple-500 to-indigo-500 rounded-full mr-4"></div>
+                  <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600">Skill Analysis</h2>
+                </div>
+                <div className="flex space-x-2">
+                  {Object.entries(skillLevels).map(([skill, level]) => (
+                    level > 0 && (
+                      <div key={skill} className="text-xs bg-gradient-to-r from-purple-100 to-indigo-100 text-purple-800 px-3 py-1 rounded-full font-semibold shadow-sm">
+                        {Math.round(level)}%
+                      </div>
+                    )
+                  ))}
+                </div>
+              </div>
+              <div className="relative h-[350px] w-full bg-gradient-to-br from-purple-50 to-indigo-50 rounded-xl p-6 flex items-center justify-center">
+                <Radar data={radarData} options={radarOptions} />
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-12">
+            <div className="relative mb-8">
+              <div className="absolute inset-0 bg-gradient-to-r from-fuchsia-200 to-purple-200 rounded-lg transform -skew-y-2"></div>
+              <h2 className="relative text-2xl font-bold text-center py-3 text-purple-900">Practice & Improvement</h2>
+            </div>
+
+            <div className="bg-white rounded-2xl shadow-lg p-8 border border-purple-100">
+              <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center">
+                  <div className="w-2 h-8 bg-gradient-to-b from-purple-500 to-indigo-500 rounded-full mr-4"></div>
+                  <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600">
+                    Personalized Exercises
+                  </h2>
+                </div>
+                <button
+                  className="bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 group"
+                  onClick={() => setShowExercises(!showExercises)}
+                >
+                  <div className="flex items-center group-hover:scale-105 transition-transform duration-300">
+                    {showExercises ? '✖ Hide Exercises' : '✨ Show Exercises'}
+                  </div>
+                </button>
+              </div>
+
+              {showExercises && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {exercises.map((exercise, index) => (
+                    <div key={index} className="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-xl p-8 shadow-md hover:shadow-xl transition-all duration-300 border border-purple-100">
+                      <div className="flex items-center mb-4">
+                        <div className="w-1 h-6 bg-gradient-to-b from-purple-500 to-indigo-500 rounded-full mr-3"></div>
+                        <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600">
+                          {exercise.type}
+                        </h3>
+                      </div>
+                      <div className="space-y-4">
+                        <p className="text-gray-700 font-medium">{exercise.instruction}</p>
+                        {exercise.topic && (
+                          <div className="bg-white/70 rounded-lg p-4 border border-purple-100">
+                            <p className="text-purple-800 font-medium">Topic: {exercise.topic}</p>
+                          </div>
+                        )}
+                        {exercise.evidence && (
+                          <div className="bg-white/70 rounded-lg p-4 border border-purple-100">
+                            <p className="text-purple-800 font-medium">Evidence: {exercise.evidence}</p>
+                          </div>
+                        )}
+                        {exercise.arguments && (
+                          <ul className="list-none space-y-2">
+                            {exercise.arguments.map((arg, i) => (
+                              <li key={i} className="flex items-center text-gray-700 bg-white/50 p-3 rounded-lg">
+                                <span className="text-purple-500 mr-2">•</span>
+                                {arg}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                        {exercise.points && (
+                          <ul className="list-none space-y-2">
+                            {exercise.points.map((point, i) => (
+                              <li key={i} className="flex items-center text-gray-700 bg-white/50 p-3 rounded-lg">
+                                <span className="text-purple-500 mr-2">•</span>
+                                {point}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                        {exercise.sentence && (
+                          <div className="bg-white/70 rounded-lg p-4 border border-purple-100">
+                            <p className="text-purple-800 font-medium">Sentence: {exercise.sentence}</p>
+                          </div>
+                        )}
+                        <div className="mt-6 space-y-4">
+                          <textarea
+                            className="w-full h-32 p-4 border-2 border-purple-100 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-300 ease-in-out resize-none bg-white/75"
+                            placeholder="Write your response here..."
+                          />
+                          <button className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 group">
+                            <div className="flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
+                              <span className="mr-2">📝</span>
+                              Submit Response
+                            </div>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </main>
     </div>
