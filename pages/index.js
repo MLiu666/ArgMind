@@ -1,35 +1,76 @@
-// Google Gemini-powered writing analysis
+// Local Generative AI using Transformers.js
 import Head from 'next/head';
-import { useState } from 'react';
-import styles from '../styles/Home.module.css';
+import { useState, useEffect } from 'react';
+import { pipeline, env } from '@xenova/transformers';
+
+// Disable local model loading warning
+env.allowLocalModels = false;
 
 export default function Home() {
   const [text, setText] = useState('');
   const [loading, setLoading] = useState(false);
   const [feedback, setFeedback] = useState(null);
   const [error, setError] = useState(null);
+  const [model, setModel] = useState(null);
+  const [modelLoading, setModelLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadModel() {
+      try {
+        const generator = await pipeline('text-generation', 'mosaicml/mpt-7b-instruct');
+        setModel(generator);
+        setModelLoading(false);
+      } catch (err) {
+        console.error('Error loading model:', err);
+        setError('Failed to load the AI model. Please try again later.');
+        setModelLoading(false);
+      }
+    }
+    loadModel();
+  }, []);
 
   const analyzeFeedback = async () => {
-    if (!text.trim()) return;
+    if (!text.trim() || !model) return;
     
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch('/api/proxy', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ text: text.trim() })
+      const prompt = `Below is an argumentative text that needs analysis. Provide detailed feedback on its structure, logic, and persuasiveness.
+
+Text to analyze:
+${text.trim()}
+
+Provide feedback in the following format:
+
+1. Thesis Development:
+- Clarity of main argument
+- Strength of position
+
+2. Evidence Usage:
+- Quality of supporting evidence
+- Integration of examples
+
+3. Logical Flow:
+- Organization of ideas
+- Transitions between paragraphs
+
+4. Language & Style:
+- Clarity of expression
+- Academic tone
+- Grammar and mechanics
+
+5. Overall Persuasiveness:
+- Effectiveness of argumentation
+- Impact on reader`;
+
+      const result = await model(prompt, {
+        max_new_tokens: 1000,
+        temperature: 0.7,
+        repetition_penalty: 1.1,
+        do_sample: true
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || data.details || `HTTP error! status: ${response.status}`);
-      }
-
-      setFeedback(data.feedback);
+      setFeedback(result[0].generated_text);
     } catch (error) {
       console.error('Error analyzing text:', error);
       setError(error.message || 'Error analyzing text. Please try again.');
@@ -42,8 +83,9 @@ export default function Home() {
     <div>
       <Head>
         <title>ArgMind - Writing Feedback</title>
-        <meta name="description" content="AI-powered writing feedback system using Google's Gemini" />
+        <meta name="description" content="AI-powered writing feedback system using local generative AI" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/@xenova/transformers@2.15.0"></script>
       </Head>
 
       <nav className="navbar navbar-dark">
@@ -55,23 +97,32 @@ export default function Home() {
       <main className="main-container">
         <div className="feedback-section">
           <h2 className="mb-4">Writing Analysis</h2>
-          <div className="form-group mb-4">
-            <label htmlFor="textInput" className="mb-2">Enter your argumentative text:</label>
-            <textarea
-              id="textInput"
-              className="form-control feedback-textarea"
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              placeholder="Paste your argumentative text here..."
-            />
-          </div>
-          <button
-            className="btn btn-primary"
-            onClick={analyzeFeedback}
-            disabled={loading || !text.trim()}
-          >
-            {loading ? 'Analyzing...' : 'Analyze'}
-          </button>
+          {modelLoading ? (
+            <div className="alert alert-info">
+              Loading AI model... This may take a few moments.
+            </div>
+          ) : (
+            <>
+              <div className="form-group mb-4">
+                <label htmlFor="textInput" className="mb-2">Enter your argumentative text:</label>
+                <textarea
+                  id="textInput"
+                  className="form-control feedback-textarea"
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                  placeholder="Paste your argumentative text here..."
+                  disabled={loading}
+                />
+              </div>
+              <button
+                className="btn btn-primary"
+                onClick={analyzeFeedback}
+                disabled={loading || !text.trim() || modelLoading}
+              >
+                {loading ? 'Analyzing...' : 'Analyze'}
+              </button>
+            </>
+          )}
 
           {loading && (
             <div className="loading-spinner mt-4">
@@ -155,6 +206,12 @@ export default function Home() {
           background-color: #f8d7da;
           border-color: #f5c6cb;
           color: #721c24;
+        }
+
+        .alert-info {
+          background-color: #cce5ff;
+          border-color: #b8daff;
+          color: #004085;
         }
       `}</style>
     </div>

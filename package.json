@@ -1,7 +1,7 @@
 {
   "name": "argmind",
-  "version": "1.0.0",
-  "description": "ArgMind - AI-powered writing feedback system",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -9,9 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "^14.1.0",
+    "next": "^14.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "axios": "^1.6.7"
+    "@xenova/transformers": "^2.15.0"
   }
 } 
