@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgb(var(--background-end-rgb))
+  )
+  rgb(var(--background-start-rgb));
+}
+
+.radar-chart {
+  position: relative;
+  margin: auto;
+  width: 100%;
+  max-width: 600px;
+}
+
+.exercise-card {
+  transition: all 0.3s ease;
+}
+
+.exercise-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.feedback-textarea {
+  transition: border-color 0.3s ease;
+}
+
+.feedback-textarea:focus {
+  border-color: #3b82f6;
+  outline: none;
+  ring: 2px;
+  ring-color: #3b82f6;
+} 
