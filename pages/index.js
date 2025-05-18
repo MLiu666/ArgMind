@@ -254,136 +254,176 @@ Format your response as JSON only, like this:
       <div className="pt-32 container mx-auto px-4 max-w-7xl pb-24">
         <div className="max-w-6xl mx-auto space-y-12">
           {/* Essay Input */}
-          <div className="bg-white rounded-2xl shadow-lg p-8 transform hover:scale-[1.01] transition-all duration-300 border border-purple-100 relative overflow-hidden glow-effect">
-            <textarea
-              className="w-full h-[500px] p-6 border-2 border-purple-100 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-300 ease-in-out resize-none font-sans text-gray-700 shadow-inner"
-              placeholder="Paste your argumentative essay here..."
-              value={essayText}
-              onChange={(e) => setEssayText(e.target.value)}
-            />
-            <div className="absolute bottom-4 right-4 text-sm text-gray-500">
-              {essayText.length} characters
-            </div>
-            <button
-              className="mt-6 w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 group shine-effect"
-              onClick={analyzeEssay}
-            >
-              <div className="flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
-                <span className="mr-2">✨</span>
-                Analyze Essay
-                <span className="ml-2">📊</span>
+          <div className="relative">
+            {/* Decorative Line Above */}
+            <div className="absolute -top-6 left-0 right-0 flex items-center">
+              <div className="h-px bg-gradient-to-r from-transparent via-purple-300 to-transparent w-full"></div>
+              <div className="absolute left-1/2 -translate-x-1/2 bg-white px-4 flex items-center">
+                <div className="w-2 h-2 rounded-full bg-purple-400 mr-2"></div>
+                <span className="text-purple-600 font-medium">Write</span>
+                <div className="w-2 h-2 rounded-full bg-purple-400 ml-2"></div>
               </div>
-            </button>
+            </div>
+
+            <div className="bg-white rounded-2xl shadow-lg p-8 transform hover:scale-[1.01] transition-all duration-300 border border-purple-100 relative overflow-hidden glow-effect">
+              <textarea
+                className="w-full h-[500px] p-6 border-2 border-purple-100 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-300 ease-in-out resize-none font-sans text-gray-700 shadow-inner"
+                placeholder="Paste your argumentative essay here..."
+                value={essayText}
+                onChange={(e) => setEssayText(e.target.value)}
+              />
+              <div className="absolute bottom-4 right-4 text-sm text-gray-500">
+                {essayText.length} characters
+              </div>
+              <button
+                className="mt-6 w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 group shine-effect"
+                onClick={analyzeEssay}
+              >
+                <div className="flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
+                  <span className="mr-2">✨</span>
+                  Analyze Essay
+                  <span className="ml-2">📊</span>
+                </div>
+              </button>
+            </div>
           </div>
 
           {/* Analysis Dashboard */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Skill Analysis Card */}
-            <div className="bg-white rounded-2xl shadow-lg p-8 transform hover:scale-[1.01] transition-all duration-300 border border-purple-100 relative overflow-hidden glow-effect">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600">
-                  Skill Analysis
-                </h2>
-                <div className="flex space-x-2">
-                  {Object.entries(skillLevels).map(([skill, level]) => (
-                    level > 0 && (
-                      <div key={skill} 
-                           className="text-xs bg-gradient-to-r from-purple-100 to-indigo-100 text-purple-800 px-3 py-1 rounded-full font-semibold shadow-sm transform hover:scale-110 transition-all duration-300 shine-effect">
-                        {Math.round(level)}%
-                      </div>
-                    )
-                  ))}
-                </div>
-              </div>
-              <div className="relative h-[350px] w-full bg-gradient-to-br from-purple-50 to-indigo-50 rounded-xl p-6 flex items-center justify-center transform hover:scale-[1.02] transition-all duration-300">
-                <Radar data={radarData} options={radarOptions} />
+          <div className="relative">
+            {/* Decorative Line Above */}
+            <div className="absolute -top-6 left-0 right-0 flex items-center">
+              <div className="h-px bg-gradient-to-r from-transparent via-purple-300 to-transparent w-full"></div>
+              <div className="absolute left-1/2 -translate-x-1/2 bg-white px-4 flex items-center">
+                <div className="w-2 h-2 rounded-full bg-purple-400 mr-2"></div>
+                <span className="text-purple-600 font-medium">Analysis</span>
+                <div className="w-2 h-2 rounded-full bg-purple-400 ml-2"></div>
               </div>
             </div>
 
-            {/* Exercise Card */}
-            <div className="bg-white rounded-2xl shadow-lg p-8 transform hover:scale-[1.01] transition-all duration-300 border border-purple-100 relative overflow-hidden glow-effect">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600">
-                  Practice Exercises
-                </h2>
-                <button
-                  className="bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 group shine-effect"
-                  onClick={() => setShowExercises(!showExercises)}
-                >
-                  <div className="flex items-center group-hover:scale-105 transition-transform duration-300">
-                    {showExercises ? '✖ Hide Exercises' : '✨ Show Exercises'}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Skill Analysis Card */}
+              <div className="relative">
+                {/* Card Title Line */}
+                <div className="absolute -top-3 left-0 right-0 flex justify-center">
+                  <div className="bg-white px-4 text-sm text-purple-500 font-medium">Skills Overview</div>
+                </div>
+                <div className="bg-white rounded-2xl shadow-lg p-8 transform hover:scale-[1.01] transition-all duration-300 border border-purple-100 relative overflow-hidden glow-effect">
+                  <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600">
+                      Skill Analysis
+                    </h2>
+                    <div className="flex space-x-2">
+                      {Object.entries(skillLevels).map(([skill, level]) => (
+                        level > 0 && (
+                          <div key={skill} 
+                               className="text-xs bg-gradient-to-r from-purple-100 to-indigo-100 text-purple-800 px-3 py-1 rounded-full font-semibold shadow-sm transform hover:scale-110 transition-all duration-300 shine-effect">
+                              {Math.round(level)}%
+                          </div>
+                        )
+                      ))}
+                    </div>
                   </div>
-                </button>
+                  <div className="relative h-[350px] w-full bg-gradient-to-br from-purple-50 to-indigo-50 rounded-xl p-6 flex items-center justify-center transform hover:scale-[1.02] transition-all duration-300">
+                    <Radar data={radarData} options={radarOptions} />
+                  </div>
+                </div>
               </div>
 
-              {showExercises && (
-                <div className="space-y-4">
-                  {exercises.map((exercise, index) => (
-                    <div key={index} 
-                         className="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-xl p-6 shadow-md hover:shadow-xl transition-all duration-300 border border-purple-100 transform hover:scale-[1.02] glow-effect"
-                         style={{ animationDelay: `${index * 0.1}s` }}>
-                      <div className="flex items-center mb-4">
-                        <div className="w-1 h-6 bg-gradient-to-b from-purple-500 to-indigo-500 rounded-full mr-3 pulse-ring-effect"></div>
-                        <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600">
-                          {exercise.type}
-                        </h3>
-                      </div>
-                      <div className="space-y-4">
-                        <p className="text-gray-700 font-medium">{exercise.instruction}</p>
-                        {exercise.topic && (
-                          <div className="bg-white/70 rounded-lg p-4 border border-purple-100">
-                            <p className="text-purple-800 font-medium">Topic: {exercise.topic}</p>
-                          </div>
-                        )}
-                        {exercise.evidence && (
-                          <div className="bg-white/70 rounded-lg p-4 border border-purple-100">
-                            <p className="text-purple-800 font-medium">Evidence: {exercise.evidence}</p>
-                          </div>
-                        )}
-                        {exercise.arguments && (
-                          <ul className="list-none space-y-2">
-                            {exercise.arguments.map((arg, i) => (
-                              <li key={i} className="flex items-center text-gray-700 bg-white/50 p-3 rounded-lg">
-                                <span className="text-purple-500 mr-2">•</span>
-                                {arg}
-                              </li>
-                            ))}
-                          </ul>
-                        )}
-                        {exercise.points && (
-                          <ul className="list-none space-y-2">
-                            {exercise.points.map((point, i) => (
-                              <li key={i} className="flex items-center text-gray-700 bg-white/50 p-3 rounded-lg">
-                                <span className="text-purple-500 mr-2">•</span>
-                                {point}
-                              </li>
-                            ))}
-                          </ul>
-                        )}
-                        {exercise.sentence && (
-                          <div className="bg-white/70 rounded-lg p-4 border border-purple-100">
-                            <p className="text-purple-800 font-medium">Sentence: {exercise.sentence}</p>
-                          </div>
-                        )}
-                        <div className="mt-6 space-y-4">
-                          <textarea
-                            className="w-full h-32 p-4 border-2 border-purple-100 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-300 ease-in-out resize-none bg-white/75"
-                            placeholder="Write your response here..."
-                          />
-                          <button className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 group">
-                            <div className="flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
-                              <span className="mr-2">📝</span>
-                              Submit Response
-                            </div>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+              {/* Exercise Card */}
+              <div className="relative">
+                {/* Card Title Line */}
+                <div className="absolute -top-3 left-0 right-0 flex justify-center">
+                  <div className="bg-white px-4 text-sm text-purple-500 font-medium">Practice Exercises</div>
                 </div>
-              )}
+                <div className="bg-white rounded-2xl shadow-lg p-8 transform hover:scale-[1.01] transition-all duration-300 border border-purple-100 relative overflow-hidden glow-effect">
+                  <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600">
+                      Practice Exercises
+                    </h2>
+                    <button
+                      className="bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 group shine-effect"
+                      onClick={() => setShowExercises(!showExercises)}
+                    >
+                      <div className="flex items-center group-hover:scale-105 transition-transform duration-300">
+                        {showExercises ? '✖ Hide Exercises' : '✨ Show Exercises'}
+                      </div>
+                    </button>
+                  </div>
+
+                  {showExercises && (
+                    <div className="space-y-4">
+                      {exercises.map((exercise, index) => (
+                        <div key={index} 
+                             className="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-xl p-6 shadow-md hover:shadow-xl transition-all duration-300 border border-purple-100 transform hover:scale-[1.02] glow-effect"
+                             style={{ animationDelay: `${index * 0.1}s` }}>
+                          <div className="flex items-center mb-4">
+                            <div className="w-1 h-6 bg-gradient-to-b from-purple-500 to-indigo-500 rounded-full mr-3 pulse-ring-effect"></div>
+                            <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600">
+                              {exercise.type}
+                            </h3>
+                          </div>
+                          <div className="space-y-4">
+                            <p className="text-gray-700 font-medium">{exercise.instruction}</p>
+                            {exercise.topic && (
+                              <div className="bg-white/70 rounded-lg p-4 border border-purple-100">
+                                <p className="text-purple-800 font-medium">Topic: {exercise.topic}</p>
+                              </div>
+                            )}
+                            {exercise.evidence && (
+                              <div className="bg-white/70 rounded-lg p-4 border border-purple-100">
+                                <p className="text-purple-800 font-medium">Evidence: {exercise.evidence}</p>
+                              </div>
+                            )}
+                            {exercise.arguments && (
+                              <ul className="list-none space-y-2">
+                                {exercise.arguments.map((arg, i) => (
+                                  <li key={i} className="flex items-center text-gray-700 bg-white/50 p-3 rounded-lg">
+                                    <span className="text-purple-500 mr-2">•</span>
+                                    {arg}
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                            {exercise.points && (
+                              <ul className="list-none space-y-2">
+                                {exercise.points.map((point, i) => (
+                                  <li key={i} className="flex items-center text-gray-700 bg-white/50 p-3 rounded-lg">
+                                    <span className="text-purple-500 mr-2">•</span>
+                                    {point}
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                            {exercise.sentence && (
+                              <div className="bg-white/70 rounded-lg p-4 border border-purple-100">
+                                <p className="text-purple-800 font-medium">Sentence: {exercise.sentence}</p>
+                              </div>
+                            )}
+                            <div className="mt-6 space-y-4">
+                              <textarea
+                                className="w-full h-32 p-4 border-2 border-purple-100 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-300 ease-in-out resize-none bg-white/75"
+                                placeholder="Write your response here..."
+                              />
+                              <button className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 group">
+                                <div className="flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
+                                  <span className="mr-2">📝</span>
+                                  Submit Response
+                                </div>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
+
+          {/* Decorative Side Lines */}
+          <div className="absolute left-0 top-1/4 bottom-1/4 w-px bg-gradient-to-b from-transparent via-purple-200 to-transparent"></div>
+          <div className="absolute right-0 top-1/4 bottom-1/4 w-px bg-gradient-to-b from-transparent via-purple-200 to-transparent"></div>
         </div>
       </div>
 
