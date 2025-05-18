@@ -3,44 +3,67 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
+  --foreground-rgb: 49, 46, 129;
+  --background-start-rgb: 238, 242, 255;
   --background-end-rgb: 255, 255, 255;
 }
 
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
-    to bottom,
-    transparent,
+    135deg,
+    rgb(var(--background-start-rgb)),
     rgb(var(--background-end-rgb))
-  )
-  rgb(var(--background-start-rgb));
+  );
+  min-height: 100vh;
+}
+
+@layer base {
+  * {
+    @apply antialiased;
+  }
 }
 
 .radar-chart {
   position: relative;
   margin: auto;
   width: 100%;
-  max-width: 600px;
+  max-width: 500px;
 }
 
 .exercise-card {
-  transition: all 0.3s ease;
+  @apply transition-all duration-300 ease-in-out;
 }
 
 .exercise-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  @apply shadow-lg;
 }
 
 .feedback-textarea {
-  transition: border-color 0.3s ease;
+  @apply transition-all duration-200 ease-in-out;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 .feedback-textarea:focus {
-  border-color: #3b82f6;
-  outline: none;
-  ring: 2px;
-  ring-color: #3b82f6;
+  @apply border-indigo-500 ring-2 ring-indigo-200 outline-none;
+}
+
+/* Custom scrollbar for modern browsers */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 } 

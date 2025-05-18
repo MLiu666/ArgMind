@@ -45,11 +45,47 @@ export default function Home() {
       {
         label: 'Your Skills',
         data: Object.values(skillLevels),
-        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-        borderColor: 'rgba(54, 162, 235, 1)',
-        borderWidth: 1,
+        backgroundColor: 'rgba(129, 140, 248, 0.2)',
+        borderColor: 'rgba(129, 140, 248, 1)',
+        borderWidth: 2,
+        pointBackgroundColor: 'rgba(129, 140, 248, 1)',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: 'rgba(129, 140, 248, 1)',
       },
     ],
+  };
+
+  const radarOptions = {
+    scales: {
+      r: {
+        angleLines: {
+          color: 'rgba(156, 163, 175, 0.2)',
+        },
+        grid: {
+          color: 'rgba(156, 163, 175, 0.2)',
+        },
+        pointLabels: {
+          font: {
+            size: 12
+          }
+        },
+        ticks: {
+          backdropColor: 'transparent',
+          color: 'rgb(107, 114, 128)'
+        }
+      }
+    },
+    plugins: {
+      legend: {
+        labels: {
+          font: {
+            size: 14
+          }
+        }
+      }
+    },
+    maintainAspectRatio: false
   };
 
   useEffect(() => {
@@ -198,82 +234,92 @@ Format your response as JSON only, like this:
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
       <Head>
-        <title>Personalized GenAI-based Writing Feedback System</title>
+        <title>ArgMind - AI Writing Analysis</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
-        <h1 className="text-3xl font-bold mb-8 text-center">
-          Argumentative Writing Skills Analysis
-        </h1>
-
-        <div className="mb-8">
-          <textarea
-            className="w-full h-48 p-4 border rounded"
-            placeholder="Paste your argumentative essay here..."
-            value={essayText}
-            onChange={(e) => setEssayText(e.target.value)}
-          />
-          <button
-            className="mt-4 bg-blue-500 text-white px-6 py-2 rounded"
-            onClick={analyzeEssay}
-          >
-            Analyze Essay
-          </button>
+      <main className="container mx-auto px-4 py-8 max-w-7xl">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-indigo-900 mb-2">
+            ArgMind
+          </h1>
+          <p className="text-gray-600 text-lg">
+            Advanced AI-Powered Writing Analysis
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="bg-white p-6 rounded-lg shadow">
-            <h2 className="text-xl font-semibold mb-4">Your Skill Radar</h2>
-            <div className="w-full h-[400px]">
-              <Radar data={radarData} />
-            </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <div className="bg-white rounded-xl shadow-lg p-6 order-2 lg:order-1">
+            <h2 className="text-2xl font-semibold text-indigo-900 mb-4">Your Essay</h2>
+            <textarea
+              className="w-full h-[400px] p-4 border-2 border-indigo-100 rounded-lg focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-colors duration-200 ease-in-out resize-none font-sans text-gray-700"
+              placeholder="Paste your argumentative essay here..."
+              value={essayText}
+              onChange={(e) => setEssayText(e.target.value)}
+            />
+            <button
+              className="mt-4 bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors duration-200 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 w-full lg:w-auto"
+              onClick={analyzeEssay}
+            >
+              Analyze Essay
+            </button>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold">Personalized Exercises</h2>
-              <button
-                className="bg-green-500 text-white px-4 py-2 rounded"
-                onClick={() => setShowExercises(!showExercises)}
-              >
-                {showExercises ? 'Hide Exercises' : 'Show Exercises'}
-              </button>
+          <div className="bg-white rounded-xl shadow-lg p-6 order-1 lg:order-2">
+            <h2 className="text-2xl font-semibold text-indigo-900 mb-4">Skill Analysis</h2>
+            <div className="h-[350px] w-full">
+              <Radar data={radarData} options={radarOptions} />
             </div>
-
-            {showExercises && exercises.map((exercise, index) => (
-              <div key={index} className="mb-6 p-4 border rounded">
-                <h3 className="font-semibold mb-2">{exercise.type}</h3>
-                <p className="mb-2">{exercise.instruction}</p>
-                {exercise.topic && <p className="italic mb-2">Topic: {exercise.topic}</p>}
-                {exercise.evidence && <p className="italic mb-2">Evidence: {exercise.evidence}</p>}
-                {exercise.arguments && (
-                  <ul className="list-disc pl-5 mb-2">
-                    {exercise.arguments.map((arg, i) => (
-                      <li key={i}>{arg}</li>
-                    ))}
-                  </ul>
-                )}
-                {exercise.points && (
-                  <ul className="list-disc pl-5 mb-2">
-                    {exercise.points.map((point, i) => (
-                      <li key={i}>{point}</li>
-                    ))}
-                  </ul>
-                )}
-                {exercise.sentence && <p className="italic mb-2">Sentence: {exercise.sentence}</p>}
-                <textarea
-                  className="w-full h-32 p-2 border rounded mt-2"
-                  placeholder="Write your response here..."
-                />
-                <button className="mt-2 bg-blue-500 text-white px-4 py-1 rounded">
-                  Submit Response
-                </button>
-              </div>
-            ))}
           </div>
+        </div>
+
+        <div className="bg-white rounded-xl shadow-lg p-6">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-semibold text-indigo-900">Personalized Exercises</h2>
+            <button
+              className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors duration-200 ease-in-out"
+              onClick={() => setShowExercises(!showExercises)}
+            >
+              {showExercises ? 'Hide Exercises' : 'Show Exercises'}
+            </button>
+          </div>
+
+          {showExercises && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {exercises.map((exercise, index) => (
+                <div key={index} className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow duration-200">
+                  <h3 className="text-xl font-semibold text-indigo-900 mb-3">{exercise.type}</h3>
+                  <p className="text-gray-700 mb-4">{exercise.instruction}</p>
+                  {exercise.topic && <p className="text-gray-600 italic mb-3">Topic: {exercise.topic}</p>}
+                  {exercise.evidence && <p className="text-gray-600 italic mb-3">Evidence: {exercise.evidence}</p>}
+                  {exercise.arguments && (
+                    <ul className="list-disc list-inside mb-4 text-gray-700">
+                      {exercise.arguments.map((arg, i) => (
+                        <li key={i} className="mb-1">{arg}</li>
+                      ))}
+                    </ul>
+                  )}
+                  {exercise.points && (
+                    <ul className="list-disc list-inside mb-4 text-gray-700">
+                      {exercise.points.map((point, i) => (
+                        <li key={i} className="mb-1">{point}</li>
+                      ))}
+                    </ul>
+                  )}
+                  {exercise.sentence && <p className="text-gray-600 italic mb-3">Sentence: {exercise.sentence}</p>}
+                  <textarea
+                    className="w-full h-32 p-4 border-2 border-indigo-100 rounded-lg focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-colors duration-200 ease-in-out mb-4 resize-none"
+                    placeholder="Write your response here..."
+                  />
+                  <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors duration-200 ease-in-out w-full">
+                    Submit Response
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </main>
     </div>
