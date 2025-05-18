@@ -1,3 +1,4 @@
+// Google Gemini-powered writing analysis
 import Head from 'next/head';
 import { useState } from 'react';
 import styles from '../styles/Home.module.css';
@@ -19,16 +20,7 @@ export default function Home() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          model: 'mistralai/Mistral-7B-Instruct-v0.1',
-          payload: {
-            inputs: `Analyze this argumentative writing and provide feedback on its structure, logic, and persuasiveness: "${text}"`,
-            parameters: {
-              max_length: 1000,
-              temperature: 0.7,
-            }
-          }
-        }),
+        body: JSON.stringify({ text: text.trim() })
       });
 
       const data = await response.json();
@@ -37,7 +29,7 @@ export default function Home() {
         throw new Error(data.error || data.details || `HTTP error! status: ${response.status}`);
       }
 
-      setFeedback(data);
+      setFeedback(data.feedback);
     } catch (error) {
       console.error('Error analyzing text:', error);
       setError(error.message || 'Error analyzing text. Please try again.');
@@ -49,8 +41,8 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>ArgMind</title>
-        <meta name="description" content="AI-powered writing feedback system" />
+        <title>ArgMind - Writing Feedback</title>
+        <meta name="description" content="AI-powered writing feedback system using Google's Gemini" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
       </Head>
 
@@ -99,9 +91,11 @@ export default function Home() {
             <div className="mt-4">
               <h3>Feedback</h3>
               <div className="recommendation-card">
-                <pre style={{ whiteSpace: 'pre-wrap' }}>
-                  {JSON.stringify(feedback, null, 2)}
-                </pre>
+                <div className="feedback-content">
+                  {feedback.split('\n').map((line, i) => (
+                    <p key={i}>{line}</p>
+                  ))}
+                </div>
               </div>
             </div>
           )}
@@ -144,6 +138,12 @@ export default function Home() {
           border-left: 4px solid #3498db;
           padding: 1rem;
           margin: 1rem 0;
+        }
+
+        .feedback-content {
+          white-space: pre-wrap;
+          font-size: 1rem;
+          line-height: 1.6;
         }
 
         .alert {
