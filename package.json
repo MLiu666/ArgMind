@@ -2,13 +2,7 @@
   "name": "argmind",
   "version": "1.0.0",
   "description": "ArgMind - AI-powered writing feedback system",
-  "main": "index.html",
   "scripts": {
-    "start": "serve",
-    "build": "echo 'No build step required'",
-    "vercel-build": "echo 'Static site, no build needed'"
-  },
-  "dependencies": {
-    "serve": "^14.0.0"
+    "vercel-build": "echo 'No build step needed'"
   }
 } 
