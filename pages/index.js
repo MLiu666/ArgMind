@@ -236,16 +236,23 @@ Format your response as JSON only, like this:
   return (
     <div className="min-h-screen bg-gradient-to-br from-violet-50 via-fuchsia-50 to-purple-50 relative overflow-hidden">
       {/* Top Purple Bar */}
-      <div className="fixed top-0 left-0 right-0 z-40 h-24 bg-gradient-to-r from-purple-500 via-indigo-500 to-fuchsia-500 opacity-90"></div>
+      <div className="fixed top-0 left-0 right-0 z-40 h-24 bg-gradient-to-r from-purple-500 via-indigo-500 to-fuchsia-500 opacity-90">
+        {/* ArgMind Character */}
+        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2">
+          <div className="relative w-16 h-16 bg-white rounded-full shadow-lg flex items-center justify-center overflow-hidden">
+            <span className="text-3xl animate-float-advanced">🤖</span>
+          </div>
+        </div>
+      </div>
 
       {/* ArgMind Header */}
-      <div className="fixed top-0 left-0 right-0 z-50 h-16 flex items-center justify-center">
+      <div className="fixed top-0 left-0 right-0 z-50 h-24 flex items-center justify-center">
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-r from-purple-600 via-indigo-600 to-fuchsia-600 rounded-full blur-xl opacity-50"></div>
-          <h1 className="text-2xl font-bold text-white tracking-tight flex items-center nav-logo relative">
-            <span className="mr-2 floating-illustration">✍️</span>
+          <h1 className="text-4xl font-bold text-white tracking-tight flex items-center nav-logo relative">
+            <span className="mr-3 floating-illustration">✍️</span>
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-100">ArgMind</span>
-            <span className="ml-2 floating-illustration">🤖</span>
+            <span className="ml-3 floating-illustration">🎯</span>
           </h1>
         </div>
       </div>
