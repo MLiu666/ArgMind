@@ -8,6 +8,9 @@ env.allowLocalModels = true;
 env.useBrowserCache = true;
 env.backends.onnx.wasm.numThreads = 1;
 
+// Create pipeline instance
+let pipe = null;
+
 // Progress callback
 const progressCallback = (progress) => {
   console.log(progress);
@@ -18,7 +21,6 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [feedback, setFeedback] = useState(null);
   const [error, setError] = useState(null);
-  const [model, setModel] = useState(null);
   const [modelLoading, setModelLoading] = useState(true);
   const [loadingProgress, setLoadingProgress] = useState('');
 
@@ -26,8 +28,8 @@ export default function Home() {
     async function loadModel() {
       try {
         setLoadingProgress('Initializing model...');
-        // Use a much smaller model that's definitely browser-friendly
-        const generator = await pipeline(
+        // Create the pipeline
+        pipe = await pipeline(
           'text-generation',
           'Xenova/distilgpt2',
           {
@@ -41,7 +43,6 @@ export default function Home() {
             quantized: true,
           }
         );
-        setModel(generator);
         setModelLoading(false);
         setLoadingProgress('');
       } catch (err) {
@@ -54,7 +55,7 @@ export default function Home() {
   }, []);
 
   const analyzeFeedback = async () => {
-    if (!text.trim() || !model) return;
+    if (!text.trim() || !pipe) return;
     
     setLoading(true);
     setError(null);
@@ -87,8 +88,8 @@ Provide feedback in the following format:
 - Effectiveness of argumentation
 - Impact on reader`;
 
-      const result = await model(prompt, {
-        max_new_tokens: 1000,
+      const result = await pipe(prompt, {
+        max_new_tokens: 500,
         temperature: 0.7,
         repetition_penalty: 1.1,
         do_sample: true
