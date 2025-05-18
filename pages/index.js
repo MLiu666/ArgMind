@@ -235,10 +235,14 @@ Format your response as JSON only, like this:
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-violet-50 via-fuchsia-50 to-purple-50 relative overflow-hidden">
-      {/* Top Navigation Bar - Single ArgMind Header */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-purple-500 via-indigo-500 to-fuchsia-500 h-16">
-        <div className="h-full flex items-center justify-center">
-          <h1 className="text-2xl font-bold text-white tracking-tight flex items-center nav-logo">
+      {/* Top Purple Bar */}
+      <div className="fixed top-0 left-0 right-0 z-40 h-24 bg-gradient-to-r from-purple-500 via-indigo-500 to-fuchsia-500 opacity-90"></div>
+
+      {/* ArgMind Header */}
+      <div className="fixed top-0 left-0 right-0 z-50 h-16 flex items-center justify-center">
+        <div className="relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-600 via-indigo-600 to-fuchsia-600 rounded-full blur-xl opacity-50"></div>
+          <h1 className="text-2xl font-bold text-white tracking-tight flex items-center nav-logo relative">
             <span className="mr-2 floating-illustration">✍️</span>
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-100">ArgMind</span>
             <span className="ml-2 floating-illustration">🤖</span>
@@ -247,7 +251,7 @@ Format your response as JSON only, like this:
       </div>
 
       {/* Main Content */}
-      <div className="pt-24 container mx-auto px-4 max-w-7xl">
+      <div className="pt-32 container mx-auto px-4 max-w-7xl pb-24">
         <div className="max-w-6xl mx-auto space-y-12">
           {/* Essay Input */}
           <div className="bg-white rounded-2xl shadow-lg p-8 transform hover:scale-[1.01] transition-all duration-300 border border-purple-100 relative overflow-hidden glow-effect">
@@ -380,6 +384,30 @@ Format your response as JSON only, like this:
               )}
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Bottom Purple Bar */}
+      <div className="fixed bottom-0 left-0 right-0 z-40">
+        {/* Gradient Bar */}
+        <div className="h-24 bg-gradient-to-r from-purple-500 via-indigo-500 to-fuchsia-500 opacity-90"></div>
+        
+        {/* Decorative Wave */}
+        <div className="absolute -top-12 left-0 right-0">
+          <svg className="w-full h-12" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path 
+              d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V120H0Z" 
+              fill="url(#gradient)"
+              className="opacity-90"
+            ></path>
+            <defs>
+              <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#7C3AED" />
+                <stop offset="50%" stopColor="#818CF8" />
+                <stop offset="100%" stopColor="#C084FC" />
+              </linearGradient>
+            </defs>
+          </svg>
         </div>
       </div>
 
