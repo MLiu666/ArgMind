@@ -1,30 +1,13 @@
 {
-  "name": "argumentative-writing-app",
+  "name": "argmind",
   "version": "1.0.0",
-  "description": "A web application to enhance students' argumentative writing skills",
-  "main": "server/index.js",
+  "description": "ArgMind - AI-powered writing feedback system",
+  "main": "index.html",
   "scripts": {
-    "start": "node server/index.js",
-    "dev": "nodemon server/index.js",
-    "client": "cd client && npm start",
-    "build": "cd client && npm run build",
-    "test": "jest",
-    "heroku-postbuild": "cd client && npm install && npm run build"
-  },
-  "engines": {
-    "node": "16.x",
-    "npm": "8.x"
+    "start": "serve",
+    "build": "echo 'No build step required'"
   },
   "dependencies": {
-    "express": "^4.18.2",
-    "mongoose": "^7.0.3",
-    "cors": "^2.8.5",
-    "dotenv": "^16.0.3",
-    "jsonwebtoken": "^9.0.0",
-    "bcryptjs": "^2.4.3"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.22",
-    "jest": "^29.5.0"
+    "serve": "^14.0.0"
   }
 } 
