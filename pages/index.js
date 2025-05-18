@@ -236,10 +236,31 @@ Format your response as JSON only, like this:
   return (
     <div className="min-h-screen bg-gradient-to-br from-violet-50 via-fuchsia-50 to-purple-50 relative overflow-hidden">
       {/* Top Purple Bar */}
-      <div className="fixed top-0 left-0 right-0 z-40 h-24 bg-gradient-to-r from-purple-500 via-indigo-500 to-fuchsia-500 opacity-90">
+      <div className="fixed top-0 left-0 right-0 z-40">
+        {/* Gradient Bar */}
+        <div className="h-24 bg-gradient-to-r from-purple-500 via-indigo-500 to-fuchsia-500 opacity-90"></div>
+        
+        {/* Inverted Decorative Wave */}
+        <div className="absolute bottom-0 left-0 right-0 transform rotate-180">
+          <svg className="w-full h-12" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path 
+              d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V120H0Z" 
+              fill="url(#gradient-top)"
+              className="opacity-90"
+            ></path>
+            <defs>
+              <linearGradient id="gradient-top" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#7C3AED" />
+                <stop offset="50%" stopColor="#818CF8" />
+                <stop offset="100%" stopColor="#C084FC" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+
         {/* ArgMind Character */}
-        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2">
-          <div className="relative w-16 h-16 bg-white rounded-full shadow-lg flex items-center justify-center overflow-hidden">
+        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 z-50">
+          <div className="relative w-16 h-16 bg-white rounded-full shadow-lg flex items-center justify-center overflow-hidden hover:scale-110 transition-transform duration-300">
             <span className="text-3xl animate-float-advanced">🤖</span>
           </div>
         </div>
