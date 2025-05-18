@@ -286,6 +286,9 @@
     </div>
 
     <script>
+        // Add this at the start of your script section
+        const HUGGING_FACE_API_KEY = process.env.NEXT_PUBLIC_HUGGING_FACE_API_KEY || process.env.HUGGING_FACE_API_KEY;
+        
         function analyzeEssay() {
             const essayText = document.getElementById('essayInput').value.trim();
             if (!essayText) {
@@ -485,8 +488,7 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        // Note: Replace with your actual API key
-                        'Authorization': 'Bearer YOUR_MISTRAL_API_KEY'
+                        'Authorization': `Bearer ${HUGGING_FACE_API_KEY}`
                     },
                     body: JSON.stringify({
                         inputs: `Generate a writing exercise for improving ${skill} skills at ${score < 60 ? 'beginner' : score < 80 ? 'intermediate' : 'advanced'} level.
@@ -539,7 +541,7 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': 'Bearer YOUR_MISTRAL_API_KEY'
+                        'Authorization': `Bearer ${HUGGING_FACE_API_KEY}`
                     },
                     body: JSON.stringify({
                         inputs: `As a writing instructor, evaluate this response for a ${skill} exercise.
