@@ -1,7 +1,5 @@
 {
   "version": 2,
-  "public": true,
-  "outputDirectory": "public",
   "buildCommand": "next build",
   "devCommand": "next dev",
   "framework": "nextjs"
