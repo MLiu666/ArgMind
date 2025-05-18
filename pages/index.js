@@ -8,6 +8,11 @@ env.allowLocalModels = true;
 env.useBrowserCache = true;
 env.backends.onnx.wasm.numThreads = 1;
 
+// Progress callback
+const progressCallback = (progress) => {
+  console.log(progress);
+};
+
 export default function Home() {
   const [text, setText] = useState('');
   const [loading, setLoading] = useState(false);
@@ -15,19 +20,33 @@ export default function Home() {
   const [error, setError] = useState(null);
   const [model, setModel] = useState(null);
   const [modelLoading, setModelLoading] = useState(true);
+  const [loadingProgress, setLoadingProgress] = useState('');
 
   useEffect(() => {
     async function loadModel() {
       try {
-        // Use a smaller model that's more suitable for browser-based inference
-        const generator = await pipeline('text-generation', 'Xenova/LaMini-GPT-1.5B', {
-          quantized: true,
-        });
+        setLoadingProgress('Initializing model...');
+        // Use a much smaller model that's definitely browser-friendly
+        const generator = await pipeline(
+          'text-generation',
+          'Xenova/distilgpt2',
+          {
+            progress_callback: (progress) => {
+              if (progress.status === 'downloading') {
+                setLoadingProgress(`Downloading model... ${Math.round(progress.progress * 100)}%`);
+              } else if (progress.status === 'loading') {
+                setLoadingProgress('Loading model into memory...');
+              }
+            },
+            quantized: true,
+          }
+        );
         setModel(generator);
         setModelLoading(false);
+        setLoadingProgress('');
       } catch (err) {
         console.error('Error loading model:', err);
-        setError('Failed to load the AI model. Please try again later.');
+        setError(`Failed to load the AI model: ${err.message}`);
         setModelLoading(false);
       }
     }
@@ -104,7 +123,14 @@ Provide feedback in the following format:
           <h2 className="mb-4">Writing Analysis</h2>
           {modelLoading ? (
             <div className="alert alert-info">
-              Loading AI model... This may take a few moments.
+              <div className="loading-status">
+                {loadingProgress || 'Loading AI model... This may take a few moments.'}
+              </div>
+              <div className="progress mt-2">
+                <div className="progress-bar progress-bar-striped progress-bar-animated" 
+                     role="progressbar" 
+                     style={{width: '100%'}}></div>
+              </div>
             </div>
           ) : (
             <>
@@ -140,6 +166,12 @@ Provide feedback in the following format:
           {error && (
             <div className="alert alert-danger mt-4">
               <strong>Error: </strong> {error}
+              <button 
+                className="btn btn-outline-danger btn-sm ms-3"
+                onClick={() => window.location.reload()}
+              >
+                Retry
+              </button>
             </div>
           )}
 
