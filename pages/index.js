@@ -6,11 +6,13 @@ export default function Home() {
   const [text, setText] = useState('');
   const [loading, setLoading] = useState(false);
   const [feedback, setFeedback] = useState(null);
+  const [error, setError] = useState(null);
 
   const analyzeFeedback = async () => {
     if (!text.trim()) return;
     
     setLoading(true);
+    setError(null);
     try {
       const response = await fetch('/api/proxy', {
         method: 'POST',
@@ -29,15 +31,16 @@ export default function Home() {
         }),
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(data.error || data.details || `HTTP error! status: ${response.status}`);
       }
 
-      const data = await response.json();
       setFeedback(data);
     } catch (error) {
       console.error('Error analyzing text:', error);
-      alert('Error analyzing text. Please try again.');
+      setError(error.message || 'Error analyzing text. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -83,6 +86,12 @@ export default function Home() {
               <div className="spinner-border text-primary" role="status">
                 <span className="visually-hidden">Loading...</span>
               </div>
+            </div>
+          )}
+
+          {error && (
+            <div className="alert alert-danger mt-4">
+              <strong>Error: </strong> {error}
             </div>
           )}
 
@@ -135,6 +144,17 @@ export default function Home() {
           border-left: 4px solid #3498db;
           padding: 1rem;
           margin: 1rem 0;
+        }
+
+        .alert {
+          border-radius: 8px;
+          padding: 1rem;
+        }
+
+        .alert-danger {
+          background-color: #f8d7da;
+          border-color: #f5c6cb;
+          color: #721c24;
         }
       `}</style>
     </div>
