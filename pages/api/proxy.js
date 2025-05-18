@@ -60,36 +60,55 @@ ${text}
 
 Please provide specific examples from the text to support your feedback in each section.`;
 
-        const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=' + apiKey, {
+        // Using the alternative API endpoint format
+        const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
+        console.log('API URL:', apiUrl);
+        
+        const requestBody = {
+            contents: [{
+                parts: [{
+                    text: prompt
+                }]
+            }],
+            safetySettings: [{
+                category: "HARM_CATEGORY_DANGEROUS_CONTENT",
+                threshold: "BLOCK_NONE"
+            }],
+            generationConfig: {
+                temperature: 0.7,
+                maxOutputTokens: 1000,
+                topP: 0.8,
+                topK: 40
+            }
+        };
+
+        console.log('Request body structure:', JSON.stringify(requestBody, null, 2));
+
+        const response = await fetch(`${apiUrl}?key=${apiKey}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                contents: [{
-                    parts: [{
-                        text: prompt
-                    }]
-                }],
-                generationConfig: {
-                    temperature: 0.7,
-                    maxOutputTokens: 1000,
-                    topP: 0.8,
-                    topK: 40
-                }
-            })
+            body: JSON.stringify(requestBody)
         });
 
+        console.log('Response status:', response.status);
+        const responseText = await response.text();
+        console.log('Raw response:', responseText);
+
         if (!response.ok) {
-            const error = await response.text();
-            console.error('Google API error:', error);
             return res.status(response.status).json({ 
                 error: `Google API error: ${response.status}`,
-                details: error
+                details: responseText
             });
         }
 
-        const data = await response.json();
+        const data = JSON.parse(responseText);
+        if (!data.candidates || !data.candidates[0] || !data.candidates[0].content || !data.candidates[0].content.parts || !data.candidates[0].content.parts[0]) {
+            console.error('Unexpected API response format:', JSON.stringify(data, null, 2));
+            throw new Error('Unexpected API response format');
+        }
+
         return res.status(200).json({
             feedback: data.candidates[0].content.parts[0].text
         });
