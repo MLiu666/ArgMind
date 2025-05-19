@@ -11,6 +11,7 @@ const nextConfig = {
     config.experiments = {
       asyncWebAssembly: true,
       layers: true,
+      topLevelAwait: true,
     };
 
     // Add WASM MIME type
@@ -25,11 +26,18 @@ const nextConfig = {
       type: 'asset/resource',
     });
 
+    // Increase memory limit
+    config.optimization = {
+      ...config.optimization,
+      moduleIds: 'deterministic',
+    };
+
     return config;
   },
   // Increase build memory limit
   experimental: {
     largePageDataBytes: 128 * 1000000, // 128MB
+    serverComponentsExternalPackages: ['@xenova/transformers'],
   }
 }
 
