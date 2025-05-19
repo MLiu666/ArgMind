@@ -1,17 +1,29 @@
-# Use Node.js as base image
-FROM node:16
+# Use Python as base image
+FROM python:3.9
+
+# Install Node.js
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
+    && apt-get install -y nodejs
 
 # Set working directory
 WORKDIR /app
 
-# Install a simple HTTP server
-RUN npm install -g http-server
+# Copy package files
+COPY package*.json ./
+COPY requirements.txt ./
+
+# Install dependencies
+RUN npm install
+RUN pip install -r requirements.txt
 
 # Copy application files
 COPY . .
 
-# Expose port 8080
-EXPOSE 8080
+# Build Next.js application
+RUN npm run build
 
-# Start the HTTP server
-CMD ["http-server", "-p", "8080"] 
+# Expose ports
+EXPOSE 3000 8000
+
+# Start both Next.js and FastAPI servers
+CMD ["sh", "-c", "npm start & uvicorn src.api.neuralcdm_api:app --host 0.0.0.0 --port 8000"] 

@@ -9,9 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "^13.4.19",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "antd": "^5.0.0",
+    "@types/react": "latest",
+    "@types/node": "latest",
+    "typescript": "latest",
     "chart.js": "^4.4.0",
     "react-chartjs-2": "^5.2.0",
     "@xenova/transformers": "^2.15.0",
