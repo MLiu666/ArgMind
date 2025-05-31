@@ -19,6 +19,9 @@ export default function Home() {
   const [exercises, setExercises] = useState([]);
   const [showExercises, setShowExercises] = useState(false);
   const [essayText, setEssayText] = useState('');
+  const [exerciseResponses, setExerciseResponses] = useState({});
+  const [exerciseFeedback, setExerciseFeedback] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   const radarData = {
     labels: [
@@ -172,6 +175,64 @@ export default function Home() {
 
     const generatedExercises = weakestSkills.map(skill => exerciseTemplates[skill]);
     setExercises(generatedExercises);
+  };
+
+  const handleExerciseSubmit = async (exerciseIndex, response) => {
+    setIsSubmitting(true);
+    try {
+      // Store the response
+      setExerciseResponses(prev => ({
+        ...prev,
+        [exerciseIndex]: response
+      }));
+
+      // Generate feedback based on the exercise type
+      const exercise = exercises[exerciseIndex];
+      let feedback = '';
+
+      switch (exercise.type) {
+        case 'Thesis Statement Practice':
+          feedback = response.includes(exercise.topic) 
+            ? 'Good job! Your thesis statement directly addresses the topic.'
+            : 'Try to make your thesis statement more focused on the given topic.';
+          break;
+        case 'Evidence Integration Exercise':
+          feedback = response.includes(exercise.evidence)
+            ? 'Excellent! You successfully integrated the evidence into your paragraph.'
+            : 'Make sure to incorporate the provided evidence into your response.';
+          break;
+        case 'Logical Flow Practice':
+          feedback = 'Your logical sequence looks good! Remember to maintain clear transitions between points.';
+          break;
+        case 'Conclusion Writing Practice':
+          feedback = exercise.points.every(point => response.toLowerCase().includes(point.toLowerCase()))
+            ? 'Great conclusion! You covered all the main points.'
+            : 'Try to include all the main points in your conclusion.';
+          break;
+        case 'Language Enhancement Exercise':
+          feedback = response.length > exercise.sentence.length
+            ? 'Good improvement! You expanded the sentence with more precise language.'
+            : 'Try to use more specific and descriptive language.';
+          break;
+        default:
+          feedback = 'Thank you for your response!';
+      }
+
+      // Store the feedback
+      setExerciseFeedback(prev => ({
+        ...prev,
+        [exerciseIndex]: feedback
+      }));
+
+    } catch (error) {
+      console.error('Error submitting exercise:', error);
+      setExerciseFeedback(prev => ({
+        ...prev,
+        [exerciseIndex]: 'Sorry, there was an error processing your response. Please try again.'
+      }));
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -372,13 +433,28 @@ export default function Home() {
                               <textarea
                                 className="w-full h-32 p-4 border-2 border-purple-100 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-300 ease-in-out resize-none bg-white/75"
                                 placeholder="Write your response here..."
+                                value={exerciseResponses[index] || ''}
+                                onChange={(e) => setExerciseResponses(prev => ({
+                                  ...prev,
+                                  [index]: e.target.value
+                                }))}
                               />
-                              <button className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 group">
+                              <button 
+                                className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 group disabled:opacity-50 disabled:cursor-not-allowed"
+                                onClick={() => handleExerciseSubmit(index, exerciseResponses[index])}
+                                disabled={isSubmitting || !exerciseResponses[index]}
+                              >
                                 <div className="flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
-                                  <span className="mr-2">📝</span>
-                                  Submit Response
+                                  <span className="mr-2">{isSubmitting ? '⏳' : '📝'}</span>
+                                  {isSubmitting ? 'Submitting...' : 'Submit Response'}
                                 </div>
                               </button>
+                              {exerciseFeedback[index] && (
+                                <div className="mt-4 p-4 bg-white/70 rounded-lg border border-purple-100">
+                                  <h4 className="text-purple-800 font-medium mb-2">Feedback:</h4>
+                                  <p className="text-gray-700">{exerciseFeedback[index]}</p>
+                                </div>
+                              )}
                             </div>
                           </div>
                         </div>
