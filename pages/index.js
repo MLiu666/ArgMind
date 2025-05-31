@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { useState } from 'react';
 import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend } from 'chart.js';
 import { Radar } from 'react-chartjs-2';
+import ProfileModule from '../src/components/ProfileModule';
 
 // Remove unused transformers.js configuration
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
@@ -23,6 +24,54 @@ export default function Home() {
   const [exerciseFeedback, setExerciseFeedback] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   
+  const [profileData, setProfileData] = useState({
+    studentId: 'STU001',
+    name: 'John Doe',
+    essays: [
+      {
+        id: 'essay_1',
+        topic: 'Parents vs School Teaching Children',
+        bandScore: 8.0,
+        date: '2024-03-15',
+        components: {
+          claim: 'Family upbringing plays a more important role in educating children',
+          data: [
+            'Schools have standardized educational methods',
+            'Average class size in Vietnam is 20 students'
+          ],
+          warrant: 'One-to-one lessons at home allow children to progress faster',
+          backing: 'Example of bedtime stories instilling compassion',
+          rebuttal: 'Schools can foster cognitive development',
+          qualifier: 'School success stories represent only a small fraction'
+        }
+      },
+      {
+        id: 'essay_2',
+        topic: 'Technology in Education',
+        bandScore: 7.5,
+        date: '2024-03-10',
+        components: {
+          claim: 'Technology enhances learning outcomes when properly integrated',
+          data: [
+            'Interactive learning platforms increase engagement',
+            'Digital tools provide immediate feedback'
+          ],
+          warrant: 'Technology enables personalized learning experiences',
+          backing: 'Studies show 30% improvement in retention rates',
+          rebuttal: 'Over-reliance on technology may reduce critical thinking',
+          qualifier: 'Technology should complement, not replace, traditional methods'
+        }
+      }
+    ],
+    statistics: {
+      averageScore: 7.75,
+      totalEssays: 2,
+      improvementRate: 15,
+      strongestComponent: 'Evidence Integration',
+      weakestComponent: 'Conclusion Strength'
+    }
+  });
+
   const radarData = {
     labels: [
       'Thesis Formulation',
@@ -283,6 +332,21 @@ export default function Home() {
       {/* Main Content */}
       <div className="pt-32 container mx-auto px-4 max-w-7xl pb-24">
         <div className="max-w-6xl mx-auto space-y-12">
+          {/* Profile Module */}
+          <div className="relative">
+            {/* Decorative Line Above */}
+            <div className="absolute -top-6 left-0 right-0 flex items-center">
+              <div className="h-px bg-gradient-to-r from-transparent via-purple-300 to-transparent w-full"></div>
+              <div className="absolute left-1/2 -translate-x-1/2 bg-white px-4 flex items-center">
+                <div className="w-2 h-2 rounded-full bg-purple-400 mr-2"></div>
+                <span className="text-purple-600 font-medium">Profile</span>
+                <div className="w-2 h-2 rounded-full bg-purple-400 ml-2"></div>
+              </div>
+            </div>
+
+            <ProfileModule {...profileData} />
+          </div>
+
           {/* Essay Input */}
           <div className="relative">
             {/* Decorative Line Above */}
