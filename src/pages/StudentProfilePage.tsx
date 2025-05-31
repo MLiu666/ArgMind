@@ -10,6 +10,7 @@ interface StudentData {
     id: string;
     topic: string;
     bandScore: number;
+    date: string;
     components: {
       claim: string;
       data: string[];
@@ -87,7 +88,39 @@ const StudentProfilePage: React.FC = () => {
     );
   }
 
-  return <StudentProfile {...studentData} />;
+  // Ensure every essay has a date (fallback to today if missing)
+  const essaysWithDate = studentData.essays.map(essay => ({
+    ...essay,
+    date: essay.date || new Date().toISOString().split('T')[0],
+  }));
+
+  // Provide default/mock values for missing statistics fields
+  const defaultStatistics = {
+    averageBandScore: 0,
+    strongestComponent: '',
+    weakestComponent: '',
+    totalEssays: 0,
+    componentScores: {
+      claim: 0,
+      data: 0,
+      warrant: 0,
+      backing: 0,
+      rebuttal: 0,
+      qualifier: 0,
+    },
+    progressData: [],
+    writingStyle: {
+      vocabularyLevel: '',
+      sentenceComplexity: '',
+      coherenceScore: 0,
+      commonPatterns: [],
+    },
+    recommendations: [],
+  };
+
+  const statistics = { ...defaultStatistics, ...studentData.statistics };
+
+  return <StudentProfile {...studentData} essays={essaysWithDate} statistics={statistics} />;
 };
 
 export default StudentProfilePage; 

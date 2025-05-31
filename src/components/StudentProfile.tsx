@@ -117,9 +117,9 @@ const StudentProfile: React.FC<StudentProfileProps> = ({
             <Col span={8} key={component}>
               <Card size="small">
                 <Text strong className="capitalize">{component}</Text>
-                <Progress 
-                  percent={score * 10} 
-                  format={percent => `${(percent / 10).toFixed(1)}`}
+                <Progress
+                  percent={score * 10}
+                  format={(percent: number | undefined) => percent ? `${(percent / 10).toFixed(1)}` : '0.0'}
                   status={score >= 7 ? "success" : score >= 6 ? "normal" : "exception"}
                 />
               </Card>
