@@ -1,0 +1,45 @@
+{
+  "essays": [
+    {
+      "id": "essay_1",
+      "topic": "Parents vs School Teaching Children to be Good Members of Society",
+      "components": {
+        "claim": "Family upbringing plays a more important role in educating children to be good parts of the community",
+        "data": [
+          "Schools have standardized educational methods",
+          "Average class size in Vietnam is 20 students",
+          "Parents form stronger bonds with their offspring"
+        ],
+        "warrant": "One-to-one lessons at home allow children to progress faster and parents can shape children's personalities at an early age",
+        "backing": "Example of bedtime stories like Robin Hood and Cinderella instilling compassion and integrity",
+        "rebuttal": "Schools can foster cognitive development and produce successful alumni",
+        "qualifier": "School success stories represent only a small fraction of total students"
+      },
+      "band_score": 8
+    },
+    {
+      "id": "essay_2",
+      "topic": "Married Couples Choosing Not to Have Children",
+      "components": {
+        "claim": "Child-free couples face both advantages and disadvantages",
+        "data": [
+          "Couples can focus on careers",
+          "More spare time available",
+          "Difficulty fitting in with peers who have children",
+          "No one to look after them in old age"
+        ],
+        "warrant": "Having children is a full-time responsibility that affects lifestyle choices",
+        "backing": "Example of couples stopping late night outings after having children",
+        "rebuttal": "Care homes are filled with elderly people who have no children",
+        "qualifier": "The decision affects both immediate lifestyle and long-term care"
+      },
+      "band_score": 7
+    }
+  ],
+  "metadata": {
+    "source": "IELTS Advantage Sample Essays",
+    "version": "1.0",
+    "last_updated": "2024-03-19",
+    "total_essays": 2
+  }
+} 
