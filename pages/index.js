@@ -4,19 +4,7 @@ import { useState } from 'react';
 import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend } from 'chart.js';
 import { Radar } from 'react-chartjs-2';
 
-// Configure transformers.js
-env.allowLocalModels = true;
-env.useBrowserCache = true;
-env.backends.onnx.wasm.numThreads = 1;
-
-// Create pipeline instance
-let pipe = null;
-
-// Progress callback
-const progressCallback = (progress) => {
-  console.log(progress);
-};
-
+// Remove unused transformers.js configuration
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
 export default function Home() {
