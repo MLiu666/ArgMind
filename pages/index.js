@@ -344,7 +344,12 @@ export default function Home() {
               </div>
             </div>
 
-            <ProfileModule {...profileData} />
+            <ProfileModule 
+              studentId={profileData.studentId}
+              name={profileData.name}
+              essays={profileData.essays}
+              statistics={profileData.statistics}
+            />
           </div>
 
           {/* Essay Input */}
