@@ -1,7 +1,6 @@
 // Local Generative AI using Transformers.js
 import Head from 'next/head';
-import { useState, useEffect } from 'react';
-import { pipeline, env } from '@xenova/transformers';
+import { useState } from 'react';
 import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend } from 'chart.js';
 import { Radar } from 'react-chartjs-2';
 
@@ -88,94 +87,48 @@ export default function Home() {
     maintainAspectRatio: false
   };
 
-  useEffect(() => {
-    async function loadModel() {
-      try {
-        // Create the pipeline
-        pipe = await pipeline(
-          'text-generation',
-          'Xenova/distilgpt2',
-          {
-            progress_callback: (progress) => {
-              if (progress.status === 'downloading') {
-                console.log(`Downloading model... ${Math.round(progress.progress * 100)}%`);
-              } else if (progress.status === 'loading') {
-                console.log('Loading model into memory...');
-              }
-            },
-            quantized: true,
-          }
-        );
-      } catch (err) {
-        console.error('Error loading model:', err);
-      }
-    }
-    loadModel();
-  }, []);
-
   const analyzeEssay = async () => {
-    if (!pipe || !essayText.trim()) return;
+    if (!essayText.trim()) return;
 
     try {
-      const prompt = `Analyze this argumentative essay and provide scores from 0-100 for each skill:
-
-Essay:
-${essayText.trim()}
-
-Please analyze the essay and provide numerical scores (0-100) for:
-1. Thesis Formulation
-2. Evidence Integration
-3. Logical Flow
-4. Conclusion Strength
-5. Language Usage
-
-Format your response as JSON only, like this:
-{
-  "thesisFormulation": score,
-  "evidenceIntegration": score,
-  "logicalFlow": score,
-  "conclusionStrength": score,
-  "languageUsage": score,
-  "feedback": "detailed feedback here"
-}`;
-
-      const result = await pipe(prompt, {
-        max_new_tokens: 500,
-        temperature: 0.7,
-        repetition_penalty: 1.1,
-        do_sample: true
+      const response = await fetch('/api/rag/retrieve', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          query: essayText.trim(),
+          component_type: 'all'
+        }),
       });
 
-      try {
-        // Extract the JSON part from the response
-        const jsonStr = result[0].generated_text.substring(result[0].generated_text.indexOf('{'), result[0].generated_text.lastIndexOf('}') + 1);
-        const analysis = JSON.parse(jsonStr);
-        
-        setSkillLevels({
-          thesisFormulation: analysis.thesisFormulation || 0,
-          evidenceIntegration: analysis.evidenceIntegration || 0,
-          logicalFlow: analysis.logicalFlow || 0,
-          conclusionStrength: analysis.conclusionStrength || 0,
-          languageUsage: analysis.languageUsage || 0
-        });
-
-        generateExercises({
-          thesisFormulation: analysis.thesisFormulation || 0,
-          evidenceIntegration: analysis.evidenceIntegration || 0,
-          logicalFlow: analysis.logicalFlow || 0,
-          conclusionStrength: analysis.conclusionStrength || 0,
-          languageUsage: analysis.languageUsage || 0
-        });
-      } catch (parseError) {
-        console.error('Error parsing model output:', parseError);
-        // Fallback to random scores if parsing fails
-        const fallbackAnalysis = await neuralCDMAnalysis(essayText);
-        setSkillLevels(fallbackAnalysis.skillLevels);
-        generateExercises(fallbackAnalysis.skillLevels);
+      if (!response.ok) {
+        throw new Error('Failed to analyze essay');
       }
+
+      const analysis = await response.json();
+      
+      // Update skill levels based on RAG analysis
+      setSkillLevels({
+        thesisFormulation: analysis.results[0]?.components?.claim ? 80 : 40,
+        evidenceIntegration: analysis.results[0]?.components?.data?.length > 0 ? 85 : 45,
+        logicalFlow: analysis.results[0]?.components?.warrant ? 75 : 35,
+        conclusionStrength: analysis.results[0]?.components?.backing ? 70 : 30,
+        languageUsage: analysis.results[0]?.components?.qualifier ? 65 : 25
+      });
+
+      // Generate exercises based on the analysis
+      generateExercises({
+        thesisFormulation: analysis.results[0]?.components?.claim ? 80 : 40,
+        evidenceIntegration: analysis.results[0]?.components?.data?.length > 0 ? 85 : 45,
+        logicalFlow: analysis.results[0]?.components?.warrant ? 75 : 35,
+        conclusionStrength: analysis.results[0]?.components?.backing ? 70 : 30,
+        languageUsage: analysis.results[0]?.components?.qualifier ? 65 : 25
+      });
+
     } catch (error) {
       console.error('Error analyzing essay:', error);
-      // Fallback to random scores if model fails
+      // Fallback to random scores if analysis fails
       const fallbackAnalysis = await neuralCDMAnalysis(essayText);
       setSkillLevels(fallbackAnalysis.skillLevels);
       generateExercises(fallbackAnalysis.skillLevels);
